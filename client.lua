@@ -4,7 +4,7 @@ local blips = {
      {title="Yacht", colour=37, id=455, x = -396.0, y = 6892.68, z = 5.5734}, 
   } 
   
-local items = {
+local yacht_exterior = {
 	
 	-- radar / antenna on roof
 	[1] = GetHashKey("apa_mp_apa_yacht_radar_01a"),
@@ -30,13 +30,6 @@ local items = {
 	[8] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple003"),
 	[9] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple2"),
 	
-	-- yacht float
-	-- apa_prop_yacht_float_1a or apa_prop_yacht_float_1b
-	--
-	
-	
-	
-	 
 }
   
 local YachtPaintVariants = {  
@@ -57,77 +50,66 @@ local YachtPaintVariants = {
     [14] = 14, -- Merchant
     [15] = 15, -- Voyager
 } 
-  
-AddEventHandler('onClientResourceStop', function(res)
-	Citizen.CreateThread(function()
-	
-	  	for i=1,#items do
-			RequestModel(items[i])
-		end
-	
-		for i=1,#items do 
-		  DeleteObject(items[i])
-		end
-		
-			
-		local obj_Yacht = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht'))
-		DeleteObject(obj_Yacht)
-		  
-		RemoveIpl("apa_ch2_superyacht")
-		RemoveIpl("apa_yacht_grp12_3")
-		RemoveIpl("apa_yacht_grp12_3_int")
-		RemoveIpl("apa_yacht_grp12_3_lod") 
-		
-	end)
-end)
 
-function SetUpYacht()
+function main()
 	Citizen.CreateThread(function()
-	createBlips();
 	
-	-- spawn objects?
-  	RequestIpl("apa_ch2_superyacht")
-  	RequestIpl("apa_yacht_grp12_3")
-  	RequestIpl("apa_yacht_grp12_3_int")
-  	RequestIpl("apa_yacht_grp12_3_lod")
-	
- 
-  	for i=1,#items do
-  		RequestModel(items[i])
+	loadYachts() -- load all yachts from the maps
+	createBlips() -- create blips for all yachts 
+
+	-- ensure the exterior exists in the files
+  	for i=1,#yacht_exterior do
+  		RequestModel(yacht_exterior[i])
   	end
 	
     local obj_Yacht = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht'))
 	
 	Wait(1000)
-	
-    for i=1,#items do
+    for i=1,#yacht_exterior do
       local pos = GetEntityCoords(obj_Yacht)
       local h = GetEntityHeading(obj_Yacht)
       local o
       if i == 1 then
-        o = CreateObject(items[i], pos.x+1.715, pos.y-1.05, pos.z+13.05, true, true, true)
+        o = CreateObject(yacht_exterior[i], pos.x+1.715, pos.y-1.05, pos.z+13.05, true, true, true)
       elseif i == 3 then
-        o = CreateObject(items[i], pos.x, pos.y, pos.z-7.225, true, true, true)
+        o = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-7.225, true, true, true)
       elseif i == 5 then
-        o = CreateObject(items[i], pos.x, pos.y, pos.z-4.05, true, true, true)
+        o = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-4.05, true, true, true)
       elseif i == 6 then
-        o = CreateObject(items[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
+        o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
       elseif i == 7 then
-        o = CreateObject(items[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
+        o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
       elseif i == 8 then
-        o = CreateObject(items[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
+        o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
       elseif i == 9 then
-        o = CreateObject(items[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
+        o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
       else
-        o = CreateObject(items[i], pos.x, pos.y, pos.z-5.227, true, true, true)
+        o = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-5.227, true, true, true)
       end
       SetEntityHeading(o, h)
     end
-	-- yacht colour
-    SetObjectTextureVariant(obj_Yacht, YachtPaintVariants[15]) 
+	
+    SetObjectTextureVariant(obj_Yacht, YachtPaintVariants[15]) -- Set main colour for the yacht (models differ, the roof, upgrades etc..)
   end)
 end 
 
+  
+AddEventHandler('onClientResourceStop', function(res)
+	Citizen.CreateThread(function()
+	
+	  	for i=1,#yacht_exterior do
+			RequestModel(yacht_exterior[i])
+		end
+	
+		for i=1,#yacht_exterior do 
+		  DeleteObject(yacht_exterior[i])
+		end
+		 
+		unLoadYachts()
+		
+	end)
+end)
+ 
 function createBlips()
   
 	-- blips
@@ -159,6 +141,228 @@ function setupJacuzzi()
 
 end
 
+function loadYachts()
+	RequestIpl("apa_ch2_superyacht")
+	RequestIpl("apa_yacht_grp01_1")
+	RequestIpl("apa_yacht_grp01_1_int")
+	RequestIpl("apa_yacht_grp01_1_lod")
+	RequestIpl("apa_yacht_grp01_2")
+	RequestIpl("apa_yacht_grp01_2_int")
+	RequestIpl("apa_yacht_grp01_2_lod")
+	RequestIpl("apa_yacht_grp01_3")
+	RequestIpl("apa_yacht_grp01_3_int")
+	RequestIpl("apa_yacht_grp01_3_lod")
+	RequestIpl("apa_yacht_grp02_1")
+	RequestIpl("apa_yacht_grp02_1_int")
+	RequestIpl("apa_yacht_grp02_1_lod")
+	RequestIpl("apa_yacht_grp02_2")
+	RequestIpl("apa_yacht_grp02_2_int")
+	RequestIpl("apa_yacht_grp02_2_lod")
+	RequestIpl("apa_yacht_grp02_3")
+	RequestIpl("apa_yacht_grp02_3_int")
+	RequestIpl("apa_yacht_grp02_3_lod")
+	RequestIpl("apa_yacht_grp03_1")
+	RequestIpl("apa_yacht_grp03_1_int")
+	RequestIpl("apa_yacht_grp03_1_lod")
+	RequestIpl("apa_yacht_grp03_2")
+	RequestIpl("apa_yacht_grp03_2_int")
+	RequestIpl("apa_yacht_grp03_2_lod")
+	RequestIpl("apa_yacht_grp03_3")
+	RequestIpl("apa_yacht_grp03_3_int")
+	RequestIpl("apa_yacht_grp03_3_lod")
+	RequestIpl("apa_yacht_grp04_1")
+	RequestIpl("apa_yacht_grp04_1_int")
+	RequestIpl("apa_yacht_grp04_1_lod")
+	RequestIpl("apa_yacht_grp04_2")
+	RequestIpl("apa_yacht_grp04_2_int")
+	RequestIpl("apa_yacht_grp04_2_lod")
+	RequestIpl("apa_yacht_grp04_3")
+	RequestIpl("apa_yacht_grp04_3_int")
+	RequestIpl("apa_yacht_grp04_3_lod")
+	RequestIpl("apa_yacht_grp05_1")
+	RequestIpl("apa_yacht_grp05_1_int")
+	RequestIpl("apa_yacht_grp05_1_lod")
+	RequestIpl("apa_yacht_grp05_2")
+	RequestIpl("apa_yacht_grp05_2_int")
+	RequestIpl("apa_yacht_grp05_2_lod")
+	RequestIpl("apa_yacht_grp05_3")
+	RequestIpl("apa_yacht_grp05_3_int")
+	RequestIpl("apa_yacht_grp05_3_lod")
+	RequestIpl("apa_yacht_grp06_1")
+	RequestIpl("apa_yacht_grp06_1_int")
+	RequestIpl("apa_yacht_grp06_1_lod")
+	RequestIpl("apa_yacht_grp06_2")
+	RequestIpl("apa_yacht_grp06_2_int")
+	RequestIpl("apa_yacht_grp06_2_lod")
+	RequestIpl("apa_yacht_grp06_3")
+	RequestIpl("apa_yacht_grp06_3_int")
+	RequestIpl("apa_yacht_grp06_3_lod")
+	RequestIpl("apa_yacht_grp07_1")
+	RequestIpl("apa_yacht_grp07_1_int")
+	RequestIpl("apa_yacht_grp07_1_lod")
+	RequestIpl("apa_yacht_grp07_2")
+	RequestIpl("apa_yacht_grp07_2_int")
+	RequestIpl("apa_yacht_grp07_2_lod")
+	RequestIpl("apa_yacht_grp07_3")
+	RequestIpl("apa_yacht_grp07_3_int")
+	RequestIpl("apa_yacht_grp07_3_lod")
+	RequestIpl("apa_yacht_grp08_1")
+	RequestIpl("apa_yacht_grp08_1_int")
+	RequestIpl("apa_yacht_grp08_1_lod")
+	RequestIpl("apa_yacht_grp08_2")
+	RequestIpl("apa_yacht_grp08_2_int")
+	RequestIpl("apa_yacht_grp08_2_lod")
+	RequestIpl("apa_yacht_grp08_3")
+	RequestIpl("apa_yacht_grp08_3_int")
+	RequestIpl("apa_yacht_grp08_3_lod")
+	RequestIpl("apa_yacht_grp09_1")
+	RequestIpl("apa_yacht_grp09_1_int")
+	RequestIpl("apa_yacht_grp09_1_lod")
+	RequestIpl("apa_yacht_grp09_2")
+	RequestIpl("apa_yacht_grp09_2_int")
+	RequestIpl("apa_yacht_grp09_2_lod")
+	RequestIpl("apa_yacht_grp09_3")
+	RequestIpl("apa_yacht_grp09_3_int")
+	RequestIpl("apa_yacht_grp09_3_lod")
+	RequestIpl("apa_yacht_grp10_1")
+	RequestIpl("apa_yacht_grp10_1_int")
+	RequestIpl("apa_yacht_grp10_1_lod")
+	RequestIpl("apa_yacht_grp10_2")
+	RequestIpl("apa_yacht_grp10_2_int")
+	RequestIpl("apa_yacht_grp10_2_lod")
+	RequestIpl("apa_yacht_grp10_3")
+	RequestIpl("apa_yacht_grp10_3_int")
+	RequestIpl("apa_yacht_grp10_3_lod")
+	RequestIpl("apa_yacht_grp11_1")
+	RequestIpl("apa_yacht_grp11_1_int")
+	RequestIpl("apa_yacht_grp11_1_lod")
+	RequestIpl("apa_yacht_grp11_2")
+	RequestIpl("apa_yacht_grp11_2_int")
+	RequestIpl("apa_yacht_grp11_2_lod")
+	RequestIpl("apa_yacht_grp11_3")
+	RequestIpl("apa_yacht_grp11_3_int")
+	RequestIpl("apa_yacht_grp11_3_lod")
+	RequestIpl("apa_yacht_grp12_1")
+	RequestIpl("apa_yacht_grp12_1_int")
+	RequestIpl("apa_yacht_grp12_1_lod")
+	RequestIpl("apa_yacht_grp12_2")
+	RequestIpl("apa_yacht_grp12_2_int")
+	RequestIpl("apa_yacht_grp12_2_lod")
+	RequestIpl("apa_yacht_grp12_3")
+	RequestIpl("apa_yacht_grp12_3_int")
+	RequestIpl("apa_yacht_grp12_3_lod")
+end
 
+function unLoadYachts()
+	RemoveIpl("apa_ch2_superyacht")
+	RemoveIpl("apa_yacht_grp01_1")
+	RemoveIpl("apa_yacht_grp01_1_int")
+	RemoveIpl("apa_yacht_grp01_1_lod")
+	RemoveIpl("apa_yacht_grp01_2")
+	RemoveIpl("apa_yacht_grp01_2_int")
+	RemoveIpl("apa_yacht_grp01_2_lod")
+	RemoveIpl("apa_yacht_grp01_3")
+	RemoveIpl("apa_yacht_grp01_3_int")
+	RemoveIpl("apa_yacht_grp01_3_lod")
+	RemoveIpl("apa_yacht_grp02_1")
+	RemoveIpl("apa_yacht_grp02_1_int")
+	RemoveIpl("apa_yacht_grp02_1_lod")
+	RemoveIpl("apa_yacht_grp02_2")
+	RemoveIpl("apa_yacht_grp02_2_int")
+	RemoveIpl("apa_yacht_grp02_2_lod")
+	RemoveIpl("apa_yacht_grp02_3")
+	RemoveIpl("apa_yacht_grp02_3_int")
+	RemoveIpl("apa_yacht_grp02_3_lod")
+	RemoveIpl("apa_yacht_grp03_1")
+	RemoveIpl("apa_yacht_grp03_1_int")
+	RemoveIpl("apa_yacht_grp03_1_lod")
+	RemoveIpl("apa_yacht_grp03_2")
+	RemoveIpl("apa_yacht_grp03_2_int")
+	RemoveIpl("apa_yacht_grp03_2_lod")
+	RemoveIpl("apa_yacht_grp03_3")
+	RemoveIpl("apa_yacht_grp03_3_int")
+	RemoveIpl("apa_yacht_grp03_3_lod")
+	RemoveIpl("apa_yacht_grp04_1")
+	RemoveIpl("apa_yacht_grp04_1_int")
+	RemoveIpl("apa_yacht_grp04_1_lod")
+	RemoveIpl("apa_yacht_grp04_2")
+	RemoveIpl("apa_yacht_grp04_2_int")
+	RemoveIpl("apa_yacht_grp04_2_lod")
+	RemoveIpl("apa_yacht_grp04_3")
+	RemoveIpl("apa_yacht_grp04_3_int")
+	RemoveIpl("apa_yacht_grp04_3_lod")
+	RemoveIpl("apa_yacht_grp05_1")
+	RemoveIpl("apa_yacht_grp05_1_int")
+	RemoveIpl("apa_yacht_grp05_1_lod")
+	RemoveIpl("apa_yacht_grp05_2")
+	RemoveIpl("apa_yacht_grp05_2_int")
+	RemoveIpl("apa_yacht_grp05_2_lod")
+	RemoveIpl("apa_yacht_grp05_3")
+	RemoveIpl("apa_yacht_grp05_3_int")
+	RemoveIpl("apa_yacht_grp05_3_lod")
+	RemoveIpl("apa_yacht_grp06_1")
+	RemoveIpl("apa_yacht_grp06_1_int")
+	RemoveIpl("apa_yacht_grp06_1_lod")
+	RemoveIpl("apa_yacht_grp06_2")
+	RemoveIpl("apa_yacht_grp06_2_int")
+	RemoveIpl("apa_yacht_grp06_2_lod")
+	RemoveIpl("apa_yacht_grp06_3")
+	RemoveIpl("apa_yacht_grp06_3_int")
+	RemoveIpl("apa_yacht_grp06_3_lod")
+	RemoveIpl("apa_yacht_grp07_1")
+	RemoveIpl("apa_yacht_grp07_1_int")
+	RemoveIpl("apa_yacht_grp07_1_lod")
+	RemoveIpl("apa_yacht_grp07_2")
+	RemoveIpl("apa_yacht_grp07_2_int")
+	RemoveIpl("apa_yacht_grp07_2_lod")
+	RemoveIpl("apa_yacht_grp07_3")
+	RemoveIpl("apa_yacht_grp07_3_int")
+	RemoveIpl("apa_yacht_grp07_3_lod")
+	RemoveIpl("apa_yacht_grp08_1")
+	RemoveIpl("apa_yacht_grp08_1_int")
+	RemoveIpl("apa_yacht_grp08_1_lod")
+	RemoveIpl("apa_yacht_grp08_2")
+	RemoveIpl("apa_yacht_grp08_2_int")
+	RemoveIpl("apa_yacht_grp08_2_lod")
+	RemoveIpl("apa_yacht_grp08_3")
+	RemoveIpl("apa_yacht_grp08_3_int")
+	RemoveIpl("apa_yacht_grp08_3_lod")
+	RemoveIpl("apa_yacht_grp09_1")
+	RemoveIpl("apa_yacht_grp09_1_int")
+	RemoveIpl("apa_yacht_grp09_1_lod")
+	RemoveIpl("apa_yacht_grp09_2")
+	RemoveIpl("apa_yacht_grp09_2_int")
+	RemoveIpl("apa_yacht_grp09_2_lod")
+	RemoveIpl("apa_yacht_grp09_3")
+	RemoveIpl("apa_yacht_grp09_3_int")
+	RemoveIpl("apa_yacht_grp09_3_lod")
+	RemoveIpl("apa_yacht_grp10_1")
+	RemoveIpl("apa_yacht_grp10_1_int")
+	RemoveIpl("apa_yacht_grp10_1_lod")
+	RemoveIpl("apa_yacht_grp10_2")
+	RemoveIpl("apa_yacht_grp10_2_int")
+	RemoveIpl("apa_yacht_grp10_2_lod")
+	RemoveIpl("apa_yacht_grp10_3")
+	RemoveIpl("apa_yacht_grp10_3_int")
+	RemoveIpl("apa_yacht_grp10_3_lod")
+	RemoveIpl("apa_yacht_grp11_1")
+	RemoveIpl("apa_yacht_grp11_1_int")
+	RemoveIpl("apa_yacht_grp11_1_lod")
+	RemoveIpl("apa_yacht_grp11_2")
+	RemoveIpl("apa_yacht_grp11_2_int")
+	RemoveIpl("apa_yacht_grp11_2_lod")
+	RemoveIpl("apa_yacht_grp11_3")
+	RemoveIpl("apa_yacht_grp11_3_int")
+	RemoveIpl("apa_yacht_grp11_3_lod")
+	RemoveIpl("apa_yacht_grp12_1")
+	RemoveIpl("apa_yacht_grp12_1_int")
+	RemoveIpl("apa_yacht_grp12_1_lod")
+	RemoveIpl("apa_yacht_grp12_2")
+	RemoveIpl("apa_yacht_grp12_2_int")
+	RemoveIpl("apa_yacht_grp12_2_lod")
+	RemoveIpl("apa_yacht_grp12_3")
+	RemoveIpl("apa_yacht_grp12_3_int")
+	RemoveIpl("apa_yacht_grp12_3_lod")
+end
 
-SetUpYacht()
+main()
