@@ -30,6 +30,9 @@ local yacht_exterior = {
 	[8] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple003"),
 	[9] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple2"),
 	
+	-- invisible object containing the yacht itself, must be at the center of the yacht
+	[10] = GetHashKey("apa_ch2_superyacht_refproxy012"),
+	
 }
   
 local YachtPaintVariants = {  
@@ -54,6 +57,15 @@ local YachtPaintVariants = {
 function main()
 	Citizen.CreateThread(function()
 	
+	-- in case we are reloading the plugin
+	-- unLoadYachts()
+	for i=1,#yacht_exterior do
+		RequestModel(yacht_exterior[i])
+	end
+	for i=1,#yacht_exterior do 
+		DeleteObject(yacht_exterior[i])
+	end
+	
 	loadYachts() -- load all yachts from the maps
 	createBlips() -- create blips for all yachts 
 
@@ -62,7 +74,13 @@ function main()
   		RequestModel(yacht_exterior[i])
   	end
 	
+	-- Test Yacht #12 
     local obj_Yacht = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht'))
+    local obj_YachtRadar = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht_radar_01a'))
+    local obj_YachtExtUpgrade = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht_option3'))
+    local obj_YachtFireworkLauncher = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht_launcher_01a'))
+	
+ 
 	
 	Wait(1000)
     for i=1,#yacht_exterior do
@@ -83,6 +101,8 @@ function main()
         o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
       elseif i == 9 then
         o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
+      elseif i == 10 then
+        o = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z, true, true, true)
       else
         o = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-5.227, true, true, true)
       end
@@ -90,10 +110,12 @@ function main()
     end
 	
     SetObjectTextureVariant(obj_Yacht, YachtPaintVariants[15]) -- Set main colour for the yacht (models differ, the roof, upgrades etc..)
+    SetObjectTextureVariant(obj_YachtRadar, YachtPaintVariants[15]) -- Set main colour for the radar
+    SetObjectTextureVariant(obj_YachtExtUpgrade, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
+    SetObjectTextureVariant(obj_YachtFireworkLauncher, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
   end)
 end 
 
-  
 AddEventHandler('onClientResourceStop', function(res)
 	Citizen.CreateThread(function()
 	
@@ -109,7 +131,11 @@ AddEventHandler('onClientResourceStop', function(res)
 		
 	end)
 end)
- 
+
+function setupYachtPaint() 
+
+end
+
 function createBlips()
   
 	-- blips
