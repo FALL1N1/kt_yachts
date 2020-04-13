@@ -70,10 +70,10 @@ function main()
 	
 	-- in case we are reloading the plugin
 	unLoadYachts() 
-	--for i=1,#yacht_exterior do 
-	--	DeleteObject(yacht_exterior[i])
-	--end
-
+	for i=1,#yacht_exterior do 
+		DeleteObject(GetClosestObjectOfType(yx, yy, yz, 0.1, yacht_exterior[i]))
+	end
+	Wait(100)
 	loadYachts() -- load all yachts from the maps
 	createBlips() -- create blips for all yachts 
 	
@@ -81,12 +81,12 @@ function main()
 	 
 	-- Yacht is now spawned, let's proceed
     local obj_Yacht = GetClosestObjectOfType(yx, yy, yz, 0.1, GetHashKey('apa_mp_apa_yacht'))
- 
-	 
-    for i=1,#yacht_exterior do
-      local pos = GetEntityCoords(obj_Yacht)
-      local h = GetEntityHeading(obj_Yacht)
+	SetObjectTextureVariant(obj_Yacht, YachtPaintVariants[15])
+	local pos = GetEntityCoords(obj_Yacht)
+	local h = GetEntityHeading(obj_Yacht)
      
+	
+    for i=1,#yacht_exterior do 
       if i == 1 then
         o[i] = CreateObject(yacht_exterior[i], pos.x+1.715, pos.y-1.05, pos.z+13.05, true, true, true)
       elseif i == 2 then
@@ -101,19 +101,26 @@ function main()
         o[i] = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
       elseif i == 10 then
         o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z, true, true, true)
+	  elseif i == 11 then
+        o[i] = CreateObject(yacht_exterior[i], pos.x-16.15, pos.y-54.5, pos.z+1.2, true, true, true)
       else
         o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-5.227, true, true, true)
          --o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z, true, true, true)
       end
-      SetEntityHeading(o[i], h)
+		SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(o[i], true)
+		SetEntityDynamic(o[i], true)
+
+	SetObjectTextureVariant(o[i], YachtPaintVariants[15])
+	SetEntityHeading(o[i], h)
     end
+	
 	Wait(100)
 		tlog(GetEntityCoords(o[2]) .. "\n")
-    SetObjectTextureVariant(obj_Yacht, YachtPaintVariants[15]) -- Set main colour for the yacht (models differ, the roof, upgrades etc..)
-    SetObjectTextureVariant(o[1], YachtPaintVariants[15]) -- Set main colour for the radar
-    SetObjectTextureVariant(o[2], YachtPaintVariants[15]) -- Set main colour for the yacht (models differ, the roof, upgrades etc..)
-    -- SetObjectTextureVariant(obj_YachtExtUpgrade, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
-    -- SetObjectTextureVariant(obj_YachtFireworkLauncher, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
+ 
+	-- After the yacht is built we must use "AttachEntityToEntity" or "AttachEntityToEntityPhysically" so the objects can share movement
+	
+	-- yacht float test 
+	
 	-- make the ocean calmer /temp fix until we resolve the yacht movement/
 	while true do
 		Wait(0)
