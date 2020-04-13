@@ -1,7 +1,15 @@
+local yx = -381.773
+local yy = 6946.96
+local yz = 5.429955
+local yo = 0
+local yr = 0.1
+
+local o = {}
+
 -- blips
 local blips = {
     -- Example {title="", colour=, id=, x=, y=, z=}, 
-     {title="Yacht", colour=37, id=455, x = -396.0, y = 6892.68, z = 5.5734}, 
+     {title="Yacht", colour=37, id=455, x = yx, y = yy, z = yz}, 
   } 
   
 local yacht_exterior = {
@@ -14,7 +22,7 @@ local yacht_exterior = {
 	
 	-- silver (a) or golden(b) rails
 	-- o1, o2, o3
-	[3] = GetHashKey("apa_mp_apa_yacht_o3_rail_a"),
+	[3] = GetHashKey("apa_mp_apa_yacht_o3_rail_b"),
 	
 	-- firework launcher
 	[4] = GetHashKey("apa_mp_apa_yacht_launcher_01a"),
@@ -32,6 +40,9 @@ local yacht_exterior = {
 	
 	-- invisible object containing the yacht itself, must be at the center of the yacht
 	[10] = GetHashKey("apa_ch2_superyacht_refproxy012"),
+	
+	-- flag for the pole
+	[11] = GetHashKey("prop_flag_usboat"),
 	
 }
   
@@ -58,61 +69,51 @@ function main()
 	Citizen.CreateThread(function()
 	
 	-- in case we are reloading the plugin
-	-- unLoadYachts()
-	for i=1,#yacht_exterior do
-		RequestModel(yacht_exterior[i])
-	end
-	for i=1,#yacht_exterior do 
-		DeleteObject(yacht_exterior[i])
-	end
-	
+	unLoadYachts() 
+	--for i=1,#yacht_exterior do 
+	--	DeleteObject(yacht_exterior[i])
+	--end
+
 	loadYachts() -- load all yachts from the maps
 	createBlips() -- create blips for all yachts 
-
-	-- ensure the exterior exists in the files
-  	for i=1,#yacht_exterior do
-  		RequestModel(yacht_exterior[i])
-  	end
 	
-	-- Test Yacht #12 
-    local obj_Yacht = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht'))
-    local obj_YachtRadar = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht_radar_01a'))
-    local obj_YachtExtUpgrade = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht_option3'))
-    local obj_YachtFireworkLauncher = GetClosestObjectOfType(-381.77390000, 6946.96000000, 5.42995500, 0.1, GetHashKey('apa_mp_apa_yacht_launcher_01a'))
-	
+	Wait(100) -- wait 1s till proceed
+	 
+	-- Yacht is now spawned, let's proceed
+    local obj_Yacht = GetClosestObjectOfType(yx, yy, yz, 0.1, GetHashKey('apa_mp_apa_yacht'))
  
-	
-	Wait(1000)
+	 
     for i=1,#yacht_exterior do
       local pos = GetEntityCoords(obj_Yacht)
       local h = GetEntityHeading(obj_Yacht)
-      local o
+     
       if i == 1 then
-        o = CreateObject(yacht_exterior[i], pos.x+1.715, pos.y-1.05, pos.z+13.05, true, true, true)
+        o[i] = CreateObject(yacht_exterior[i], pos.x+1.715, pos.y-1.05, pos.z+13.05, true, true, true)
+      elseif i == 2 then
+        o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-5.227, true, true, true)
       elseif i == 3 then
-        o = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-7.225, true, true, true)
+        o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-7.225, true, true, true)
       elseif i == 5 then
-        o = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-4.05, true, true, true)
+        o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-4.05, true, true, true)
       elseif i == 6 then
-        o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
+        o[i] = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
       elseif i == 7 then
-        o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
-      elseif i == 8 then
-        o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
-      elseif i == 9 then
-        o = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
+        o[i] = CreateObject(yacht_exterior[i], pos.x-13.9, pos.y-49.0, pos.z-0.9, true, true, true)
       elseif i == 10 then
-        o = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z, true, true, true)
+        o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z, true, true, true)
       else
-        o = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-5.227, true, true, true)
+        o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-5.227, true, true, true)
+         --o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z, true, true, true)
       end
-      SetEntityHeading(o, h)
+      SetEntityHeading(o[i], h)
     end
-	
+	Wait(100)
+		tlog(GetEntityCoords(o[2]) .. "\n")
     SetObjectTextureVariant(obj_Yacht, YachtPaintVariants[15]) -- Set main colour for the yacht (models differ, the roof, upgrades etc..)
-    SetObjectTextureVariant(obj_YachtRadar, YachtPaintVariants[15]) -- Set main colour for the radar
-    SetObjectTextureVariant(obj_YachtExtUpgrade, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
-    SetObjectTextureVariant(obj_YachtFireworkLauncher, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
+    SetObjectTextureVariant(o[1], YachtPaintVariants[15]) -- Set main colour for the radar
+    SetObjectTextureVariant(o[2], YachtPaintVariants[15]) -- Set main colour for the yacht (models differ, the roof, upgrades etc..)
+    -- SetObjectTextureVariant(obj_YachtExtUpgrade, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
+    -- SetObjectTextureVariant(obj_YachtFireworkLauncher, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
   end)
 end 
 
@@ -280,6 +281,12 @@ function loadYachts()
 end
 
 function unLoadYachts()
+
+    for i=1,#o do 
+        DeleteObject(o[i])  
+    end
+
+
 	RemoveIpl("apa_ch2_superyacht")
 	RemoveIpl("apa_yacht_grp01_1")
 	RemoveIpl("apa_yacht_grp01_1_int")
@@ -389,6 +396,10 @@ function unLoadYachts()
 	RemoveIpl("apa_yacht_grp12_3")
 	RemoveIpl("apa_yacht_grp12_3_int")
 	RemoveIpl("apa_yacht_grp12_3_lod")
+end
+
+function tlog(val)
+	Citizen.Trace(val)
 end
 
 main()
