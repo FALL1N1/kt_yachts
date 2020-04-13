@@ -114,6 +114,11 @@ function main()
     SetObjectTextureVariant(o[2], YachtPaintVariants[15]) -- Set main colour for the yacht (models differ, the roof, upgrades etc..)
     -- SetObjectTextureVariant(obj_YachtExtUpgrade, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
     -- SetObjectTextureVariant(obj_YachtFireworkLauncher, YachtPaintVariants[15]) -- Set main colour for the yacht exteriors
+	-- make the ocean calmer /temp fix until we resolve the yacht movement/
+	while true do
+		Wait(0)
+		Citizen.InvokeNative(0xC54A08C85AE4D410, 0.5)
+	end
   end)
 end 
 
