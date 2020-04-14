@@ -7,46 +7,46 @@ local yr = 0.1
 local o = {}
 
 -- #1 ПОД ЛЕТИЩЕ; ПОСОКА - ЧАСОВНИКОВА
-local yachtList = {
-	{title="Yacht", X=-1460.536, Y=-3761.467, Z=5.42997},
-	{title="Yacht", X=-2117.581, Y=-2543.346, Z=5.429955},
-	{title="Yacht", X=-1605.074, Y=-1872.468, Z=5.429955},
-	{title="Yacht", X=-1995.725, Y=-1523.694, Z=5.42997},
-	{title="Yacht", X=-2072.941, Y=-1024.157, Z=10.98968},
-	{title="Yacht", X=-2697.862, Y=-540.6123, Z=5.429955},
-	{title="Yacht", X=-3205.344, Y=-219.0104, Z=5.429955},
-	{title="Yacht", X=-3448.254, Y=311.5018, Z=5.429955},
-	{title="Yacht", X=-3542.822, Y=1488.25, Z=5.429955},
-	{title="Yacht", X=-3280.501, Y=2140.507, Z=5.429955},
-	{title="Yacht", X=-3148.379, Y=2807.555, Z=5.429955},
-	{title="Yacht", X=-3254.552, Y=3685.677, Z=5.429955},
-	{title="Yacht", X=-2814.49, Y=4072.74, Z=5.429955},
-	{title="Yacht", X=-2368.441, Y=4697.874, Z=5.429955},
-	{title="Yacht", X=-777.4865, Y=6566.907, Z=5.429955},
-	{title="Yacht", X=-381.7739, Y=6946.96, Z=5.429955},
-	{title="Yacht", X=581.5955, Y=7124.558, Z=5.429955},
-	{title="Yacht", X=1396.638, Y=6860.203, Z=5.429955},
-	{title="Yacht", X=2004.462, Y=6907.157, Z=5.42997},
-	{title="Yacht", X=3490.105, Y=6305.785, Z=5.429955},
-	{title="Yacht", X=3751.681, Y=5753.501, Z=5.429955},
-	{title="Yacht", X=3684.853, Y=5212.238, Z=5.429955},
-	{title="Yacht", X=4250.581, Y=4576.565, Z=5.429955},
-	{title="Yacht", X=4225.028, Y=3988.001, Z=5.429955},
-	{title="Yacht", X=4204.355, Y=3373.7, Z=5.429955},
-	{title="Yacht", X=3784.802, Y=2548.541, Z=5.429955},
-	{title="Yacht", X=3404.51, Y=1977.044, Z=5.429955},
-	{title="Yacht", X=3411.1, Y=1193.445, Z=5.429955},
-	{title="Yacht", X=3021.254, Y=-723.3903, Z=5.429955},
-	{title="Yacht", X=3029.018, Y=-1495.702, Z=5.429955},
-	{title="Yacht", X=2976.622, Y=-1994.76, Z=5.429955},
-	{title="Yacht", X=2490.885, Y=-2428.848, Z=5.429955},
-	{title="Yacht", X=2049.79, Y=-2821.624, Z=5.429955},
-	{title="Yacht", X=1546.892, Y=-3045.627, Z=5.429955},
-	{title="Yacht", X=-351.0608, Y=-3553.323, Z=5.429955},
+local yachtList = { 
+	{yid = 1, title="Yacht", X=-1460.536, Y=-3761.467, Z=5.42997},
+	{yid = 2, title="Yacht", X=-2117.581, Y=-2543.346, Z=5.429955},
+	{yid = 3, title="Yacht", X=-1605.074, Y=-1872.468, Z=5.429955},
+	{yid = 4, title="Yacht", X=-1995.725, Y=-1523.694, Z=5.42997},
+	{yid = 5, title="Yacht", X=-2072.941, Y=-1024.157, Z=10.98968},
+	{yid = 6, title="Yacht", X=-2697.862, Y=-540.6123, Z=5.429955},
+	{yid = 7, title="Yacht", X=-3205.344, Y=-219.0104, Z=5.429955},
+	{yid = 8, title="Yacht", X=-3448.254, Y=311.5018, Z=5.429955},
+	{yid = 9, title="Yacht", X=-3542.822, Y=1488.25, Z=5.429955},
+	{yid = 10, title="Yacht", X=-3280.501, Y=2140.507, Z=5.429955},
+	{yid = 11, title="Yacht", X=-3148.379, Y=2807.555, Z=5.429955},
+	{yid = 12, title="Yacht", X=-3254.552, Y=3685.677, Z=5.429955},
+	{yid = 13, title="Yacht", X=-2814.49, Y=4072.74, Z=5.429955},
+	{yid = 14, title="Yacht", X=-2368.441, Y=4697.874, Z=5.429955},
+	{yid = 15, title="Yacht", X=-777.4865, Y=6566.907, Z=5.429955},
+	{yid = 16, title="Yacht", X=-381.7739, Y=6946.96, Z=5.429955},
+	{yid = 17, title="Yacht", X=581.5955, Y=7124.558, Z=5.429955},
+	{yid = 18, title="Yacht", X=1396.638, Y=6860.203, Z=5.429955},
+	{yid = 19, title="Yacht", X=2004.462, Y=6907.157, Z=5.42997},
+	{yid = 20, title="Yacht", X=3490.105, Y=6305.785, Z=5.429955},
+	{yid = 21, title="Yacht", X=3751.681, Y=5753.501, Z=5.429955},
+	{yid = 22, title="Yacht", X=3684.853, Y=5212.238, Z=5.429955},
+	{yid = 23, title="Yacht", X=4250.581, Y=4576.565, Z=5.429955},
+	{yid = 24, title="Yacht", X=4225.028, Y=3988.001, Z=5.429955},
+	{yid = 25, title="Yacht", X=4204.355, Y=3373.7, Z=5.429955},
+	{yid = 26, title="Yacht", X=3784.802, Y=2548.541, Z=5.429955},
+	{yid = 27, title="Yacht", X=3404.51, Y=1977.044, Z=5.429955},
+	{yid = 28, title="Yacht", X=3411.1, Y=1193.445, Z=5.429955},
+	{yid = 29, title="Yacht", X=3021.254, Y=-723.3903, Z=5.429955},
+	{yid = 30, title="Yacht", X=3029.018, Y=-1495.702, Z=5.429955},
+	{yid = 31, title="Yacht", X=2976.622, Y=-1994.76, Z=5.429955},
+	{yid = 32, title="Yacht", X=2490.885, Y=-2428.848, Z=5.429955},
+	{yid = 33, title="Yacht", X=2049.79, Y=-2821.624, Z=5.429955},
+	{yid = 34, title="Yacht", X=1546.892, Y=-3045.627, Z=5.429955},
+	{yid = 35, title="Yacht", X=-351.0608, Y=-3553.323, Z=5.429955},
 }
 
 local blips = {
-    -- Example {title="", colour=, id=, x=, y=, z=}, 
+    -- Example {title="", colour= icon colour, id= icon id, x=, y=, z=}, 
 	{title="Yacht", colour=37, id=455, x=-1460.536, y=-3761.467, z=5.42997},
 	{title="Yacht", colour=37, id=455, x=-2117.581, y=-2543.346, z=5.429955},
 	{title="Yacht", colour=37, id=455, x=-1605.074, y=-1872.468, z=5.429955},
@@ -97,7 +97,8 @@ local yacht_exterior = {
 	[3] = GetHashKey("apa_mp_apa_yacht_o3_rail_b"),
 	
 	-- firework launcher
-	[4] = GetHashKey("apa_mp_apa_yacht_launcher_01a"),
+	-- comment: doubt we'd need it since there are 3 integrated in the third upgrade
+	--[4] = GetHashKey("apa_mp_apa_yacht_launcher_01a"),
 	
 	-- light upgrade ( a - d )
 	-- level 1: apa_mp_apa_y3_l1d
@@ -105,15 +106,17 @@ local yacht_exterior = {
 	[5] = GetHashKey("apa_mp_apa_y3_l2d"),
 	
 	-- jacuzzi 
-	[6] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple1"),
-	[7] = GetHashKey("apa_mp_apa_yacht_jacuzzi_cam"),
-	[8] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple003"),
-	[9] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple2"),
+	[6] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple1"), -- water/jacuzzi effect
+	[7] = GetHashKey("apa_mp_apa_yacht_jacuzzi_cam"), -- exists on original model, dunno what it stands for, but it is there
+	-- comment: rest are unnecessary?
+	--[8] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple003"),
+	--[9] = GetHashKey("apa_mp_apa_yacht_jacuzzi_ripple2"),
 	
 	-- invisible object containing the yacht itself, must be at the center of the yacht
 	[10] = GetHashKey("apa_ch2_superyacht_refproxy012"),
 	
 	-- flag for the pole
+	-- comment: this is not the proper model, currently there as a placeholder
 	[11] = GetHashKey("prop_flag_usboat"),
 	
 }
@@ -145,6 +148,7 @@ function main()
 	for i=1,#yacht_exterior do 
 		DeleteObject(GetClosestObjectOfType(yx, yy, yz, 0.1, yacht_exterior[i]))
 	end
+	
 	Wait(100)
 	loadYachts() -- load all yachts from the maps
 	createBlips() -- create blips for all yachts 
@@ -156,16 +160,11 @@ function main()
 	SetObjectTextureVariant(obj_Yacht, YachtPaintVariants[15])
 	local pos = GetEntityCoords(obj_Yacht)
 	local h = GetEntityHeading(obj_Yacht)
-     
-	customizeYacht(pos, h, 15)
+	Wait(1000)
+	customizeYacht(obj_Yacht, pos, h, 15)
 	
-	Wait(100)
-		tlog(GetEntityCoords(o[2]) .. "\n")
- 
 	-- After the yacht is built we must use "AttachEntityToEntity" or "AttachEntityToEntityPhysically" so the objects can share movement
-	
-	-- yacht float test 
-	
+
 	-- make the ocean calmer /temp fix until we resolve the yacht movement/
 	while true do
 		Wait(0)
@@ -173,24 +172,19 @@ function main()
 	end
   end)
 end 
-
-AddEventHandler('onClientResourceStop', function(res)
-	Citizen.CreateThread(function()
-	
-	  	for i=1,#yacht_exterior do
-			RequestModel(yacht_exterior[i])
-		end
-	
-		for i=1,#yacht_exterior do 
-		  DeleteObject(yacht_exterior[i])
-		end
-		 
-		unLoadYachts()
-		
-	end)
+ 
+AddEventHandler('onClientResourceStart', function(resName)
+	Wait(1000)
+	loadYachts()
 end)
 
-function customizeYacht(pos, h, PaintID) 
+AddEventHandler('onClientResourceStop', function(resName)
+	Wait(1000)
+	unLoadYachts()
+end)
+
+
+function customizeYacht(yacht_object, pos, h, PaintID) 
 
     for i=1,#yacht_exterior do 
       if i == 1 then
@@ -210,7 +204,7 @@ function customizeYacht(pos, h, PaintID)
 	  elseif i == 11 then
         o[i] = CreateObject(yacht_exterior[i], pos.x-16.15, pos.y-54.5, pos.z+1.2, true, true, true)
       else
-        o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z-5.227, true, true, true)
+        o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z+5.227, true, true, true)
          --o[i] = CreateObject(yacht_exterior[i], pos.x, pos.y, pos.z, true, true, true)
       end
 		SetActivateObjectPhysicsAsSoonAsItIsUnfrozen(o[i], true)
@@ -218,6 +212,9 @@ function customizeYacht(pos, h, PaintID)
 
 	SetObjectTextureVariant(o[i], YachtPaintVariants[PaintID])
 	SetEntityHeading(o[i], h)
+	AttachEntityToEntityPhysically(yacht_object, o[i], i, pos.x, pos.y, pos.z, 0, 0, 0, true, true, false, false, 0, true)
+	
+	Wait(100)
     end
 end
 
